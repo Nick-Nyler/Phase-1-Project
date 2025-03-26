@@ -13,7 +13,7 @@ const coinMap = {
 };
 
 async function fetchCryptoPrice(symbol) {
-    let coinId = coinMap[symbol.toLowerCase()] || symbol.toLowerCase(); // Map to correct ID
+    let coinId = coinMap[symbol.toLowerCase()] || symbol.toLowerCase();
     try {
         let url = `https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=usd`;
         let response = await fetch(url);
