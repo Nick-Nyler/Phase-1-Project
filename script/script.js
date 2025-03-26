@@ -27,52 +27,29 @@ async function fetchCryptoPrice(symbol) {
 }
 
 async function addCrypto() {
-    let symbol = document.getElementById("cryptoSymbol").value.trim().toLowerCase();
+    let inputSymbol = document.getElementById("cryptoSymbol").value.trim().toLowerCase();
     let amount = parseFloat(document.getElementById("cryptoAmount").value);
 
-    if (!symbol || isNaN(amount) || amount <= 0) {
+    if (!inputSymbol || isNaN(amount) || amount <= 0) {
         alert("Enter a valid crypto symbol and amount!");
         return;
     }
 
-    let price = await fetchCryptoPrice(symbol);
+    // Standardize symbol: convert full names to ticker symbols if needed
+    let standardizedSymbol = Object.keys(coinMap).find(key => coinMap[key] === inputSymbol) || inputSymbol;
+    standardizedSymbol = standardizedSymbol.toUpperCase(); // Ensure consistent uppercase format
+    
+    let price = await fetchCryptoPrice(standardizedSymbol);
     if (price === 0) {
         alert("Invalid crypto symbol or API issue!");
         return;
     }
 
-    let existingEntry = portfolio.find(entry => entry.symbol === symbol.toUpperCase());
-    if (existingEntry) {
-        existingEntry.amount += amount; // ✅ Update existing crypto amount
-    } else {
-        let entry = { symbol: symbol.toUpperCase(), amount, price }; // ✅ Define 'entry' properly
-        portfolio.push(entry);
-    }
-
-    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
-    displayPortfolio();
-}
-
-async function addCrypto() {
-    let symbol = document.getElementById("cryptoSymbol").value.trim().toLowerCase();
-    let amount = parseFloat(document.getElementById("cryptoAmount").value);
-
-    if (!symbol || isNaN(amount) || amount <= 0) {
-        alert("Enter a valid crypto symbol and amount!");
-        return;
-    }
-
-    let price = await fetchCryptoPrice(symbol);
-    if (price === 0) {
-        alert("Invalid crypto symbol or API issue!");
-        return;
-    }
-
-    let existingEntry = portfolio.find(entry => entry.symbol === symbol.toUpperCase());
+    let existingEntry = portfolio.find(entry => entry.symbol === standardizedSymbol);
     if (existingEntry) {
         existingEntry.amount += amount;
     } else {
-        let entry = { symbol: symbol.toUpperCase(), amount, price };
+        let entry = { symbol: standardizedSymbol, amount, price };
         portfolio.push(entry);
     }
 

@@ -66,7 +66,6 @@ li {
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
-    transition: background 0.3s ease;
 }
 
 .reduce-btn:hover {
