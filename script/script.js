@@ -64,6 +64,7 @@ function displayPortfolio() {
 
         let li = document.createElement("li");
         li.innerHTML = `${coin.symbol}: ${coin.amount} (${value.toFixed(2)}) 
+        <button class="reduce-btn" onclick="reduceCrypto(${index})">➖</button>
         <button class="remove-btn" onclick="removeCrypto(${index})">❌</button>`;
         list.appendChild(li);
     });
@@ -77,6 +78,26 @@ function removeCrypto(index) {
         localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
         displayPortfolio();
     }
+}
+
+function reduceCrypto(index) {
+    let entry = portfolio[index];
+    let reduceAmount = parseFloat(prompt(`Enter amount to reduce from ${entry.symbol} (Current: ${entry.amount}):`));
+    
+    if (isNaN(reduceAmount) || reduceAmount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+    }
+
+    if (reduceAmount >= entry.amount) {
+        if (confirm(`Reducing ${entry.amount} will remove ${entry.symbol} from your portfolio. Continue?`)) {
+            portfolio.splice(index, 1);
+        }
+    } else {
+        entry.amount -= reduceAmount;
+    }
+    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
+    displayPortfolio();
 }
 
 
