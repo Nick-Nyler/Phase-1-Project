@@ -8,13 +8,14 @@
 </head>
 <body>
     <div class="container">
-    <h2>Crypto Portfolio Tracker</h2>
-    <input type="text" id="cryptoInput" placeholder="Enter crypto currency (eg BTC)">
-    <input type="number" id="cryptoAmount" placeholder="Enter amount">
-    <button id="addCrypto">Add to Portfolio</button>
-    <ul id="cryptoList"></ul>
-    <h3>Total Portfolio Value:<span id="totalValue">0.00</span></h3>
-</div>
-<script src="./script/script.js"></script>
+        <h2>Crypto Portfolio Tracker</h2>
+        <input type="text" id="cryptoSymbol" placeholder="Enter Crypto Symbol (e.g., BTC)">
+        <input type="number" id="cryptoAmount" placeholder="Enter Amount">
+        <button onclick="addCrypto()">Add to Portfolio</button>
+        <ul id="portfolioList"></ul>
+        <h3>Total Portfolio Value: <span id="totalValue">0.00</span></h3>
+    </div>
+
+    <script src="./script/script.js"></script>
 </body>
-</html>
+</html
