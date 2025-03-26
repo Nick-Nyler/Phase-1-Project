@@ -66,6 +66,13 @@ function displayPortfolio() {
     document.getElementById("totalValue").innerText = `${total.toFixed(2)}`;
 }
 
+function removeCrypto(index) {
+    portfolio.splice(index, 1);
+    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
+    displayPortfolio();
+}
+
+window.onload = displayPortfolio;
 
 
 
