@@ -48,6 +48,24 @@ async function addCrypto() {
     displayPortfolio();
 }
 
+function displayPortfolio() {
+    let list = document.getElementById("portfolioList");
+    list.innerHTML = "";
+    let total = 0;
+
+    portfolio.forEach((coin, index) => {
+        let value = coin.amount * coin.price;
+        total += value;
+
+        let li = document.createElement("li");
+        li.innerHTML = `${coin.symbol}: ${coin.amount} (${value.toFixed(2)}) 
+        <button class="remove-btn" onclick="removeCrypto(${index})">❌</button>`;
+        list.appendChild(li);
+    });
+
+    document.getElementById("totalValue").innerText = `${total.toFixed(2)}`;
+}
+
 
 
 
