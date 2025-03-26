@@ -41,8 +41,13 @@ async function addCrypto() {
         return;
     }
 
-    let entry = { symbol: symbol.toUpperCase(), amount, price };
+    let existingEntry = portfolio.find(entry => entry.symbol === symbol.toUpperCase());
+if (existingEntry) {
+    existingEntry.amount += amount;
+} else {
     portfolio.push(entry);
+}
+
     localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
 
     displayPortfolio();
