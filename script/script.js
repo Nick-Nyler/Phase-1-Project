@@ -42,16 +42,44 @@ async function addCrypto() {
     }
 
     let existingEntry = portfolio.find(entry => entry.symbol === symbol.toUpperCase());
-if (existingEntry) {
-    existingEntry.amount += amount;
-} else {
-    portfolio.push(entry);
-}
+    if (existingEntry) {
+        existingEntry.amount += amount; // ✅ Update existing crypto amount
+    } else {
+        let entry = { symbol: symbol.toUpperCase(), amount, price }; // ✅ Define 'entry' properly
+        portfolio.push(entry);
+    }
 
     localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
-
     displayPortfolio();
 }
+
+async function addCrypto() {
+    let symbol = document.getElementById("cryptoSymbol").value.trim().toLowerCase();
+    let amount = parseFloat(document.getElementById("cryptoAmount").value);
+
+    if (!symbol || isNaN(amount) || amount <= 0) {
+        alert("Enter a valid crypto symbol and amount!");
+        return;
+    }
+
+    let price = await fetchCryptoPrice(symbol);
+    if (price === 0) {
+        alert("Invalid crypto symbol or API issue!");
+        return;
+    }
+
+    let existingEntry = portfolio.find(entry => entry.symbol === symbol.toUpperCase());
+    if (existingEntry) {
+        existingEntry.amount += amount;
+    } else {
+        let entry = { symbol: symbol.toUpperCase(), amount, price };
+        portfolio.push(entry);
+    }
+
+    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
+    displayPortfolio();
+}
+
 
 function displayPortfolio() {
     let list = document.getElementById("portfolioList");
