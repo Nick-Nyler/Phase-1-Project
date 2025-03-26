@@ -67,12 +67,16 @@ function displayPortfolio() {
 }
 
 function removeCrypto(index) {
-    portfolio.splice(index, 1);
-    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
-    displayPortfolio();
+    if (confirm("Are you sure you want to remove this crypto?")) {
+        portfolio.splice(index, 1);
+        localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
+        displayPortfolio();
+    }
 }
 
+
 window.onload = displayPortfolio;
+
 
 
 
