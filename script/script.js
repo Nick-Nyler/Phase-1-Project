@@ -12,17 +12,20 @@ const coinMap = {
     bnb: "binancecoin"
 };
 
-async function fetchCryptoPrice(symbol) {
-    let coinId = coinMap[symbol.toLowerCase()] || symbol.toLowerCase(); 
+async function fetchCryptoDetails(symbol) {
+    let coinId = coinMap[symbol.toLowerCase()] || symbol.toLowerCase();
     try {
-        let url = `https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=usd`;
+        let url = `https://api.coingecko.com/api/v3/coins/${coinId}`;
         let response = await fetch(url);
         let data = await response.json();
 
-        return data[coinId]?.usd ? parseFloat(data[coinId].usd) : 0;
+        return {
+            price: data.market_data?.current_price?.usd || 0,
+            image: data.image?.large || ""
+        };
     } catch (error) {
-        console.error("Error fetching price:", error);
-        return 0;
+        console.error("Error fetching coin details:", error);
+        return { price: 0, image: "" };
     }
 }
 
@@ -35,11 +38,10 @@ async function addCrypto() {
         return;
     }
 
-    // Standardize symbol: convert full names to ticker symbols if needed
     let standardizedSymbol = Object.keys(coinMap).find(key => coinMap[key] === inputSymbol) || inputSymbol;
-    standardizedSymbol = standardizedSymbol.toUpperCase(); // Ensure consistent uppercase format
-    
-    let price = await fetchCryptoPrice(standardizedSymbol);
+    standardizedSymbol = standardizedSymbol.toUpperCase();
+
+    let { price, image } = await fetchCryptoDetails(standardizedSymbol);
     if (price === 0) {
         alert("Invalid crypto symbol or API issue!");
         return;
@@ -49,7 +51,7 @@ async function addCrypto() {
     if (existingEntry) {
         existingEntry.amount += amount;
     } else {
-        let entry = { symbol: standardizedSymbol, amount, price };
+        let entry = { symbol: standardizedSymbol, amount, price, image };
         portfolio.push(entry);
     }
 
@@ -57,10 +59,11 @@ async function addCrypto() {
     displayPortfolio();
 }
 
-
 function displayPortfolio() {
     let list = document.getElementById("portfolioList");
+    let imageContainer = document.getElementById("cryptoImages");
     list.innerHTML = "";
+    imageContainer.innerHTML = "";
     let total = 0;
 
     portfolio.forEach((coin, index) => {
@@ -69,9 +72,18 @@ function displayPortfolio() {
 
         let li = document.createElement("li");
         li.innerHTML = `${coin.symbol}: ${coin.amount} (${value.toFixed(2)}) 
+         <button class="add-btn" onclick="increaseCrypto(${index})">➕</button>
         <button class="reduce-btn" onclick="reduceCrypto(${index})">➖</button>
         <button class="remove-btn" onclick="removeCrypto(${index})">❌</button>`;
         list.appendChild(li);
+
+        if (coin.image) {
+            let img = document.createElement("img");
+            img.src = coin.image;
+            img.alt = coin.symbol;
+            img.classList.add("crypto-img");
+            imageContainer.appendChild(img);
+        }
     });
 
     document.getElementById("totalValue").innerText = `${total.toFixed(2)}`;
@@ -105,6 +117,19 @@ function reduceCrypto(index) {
     displayPortfolio();
 }
 
+function increaseCrypto(index) {
+    let entry = portfolio[index];
+    let addAmount = parseFloat(prompt(`Enter amount to add for ${entry.symbol} (Current: ${entry.amount}):`));
+    
+    if (isNaN(addAmount) || addAmount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+    }
+
+    entry.amount += addAmount;
+    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
+    displayPortfolio();
+}
 
 window.onload = displayPortfolio;
 

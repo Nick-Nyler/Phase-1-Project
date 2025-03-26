@@ -7,15 +7,16 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+    
     <div class="container">
         <h2>Crypto Portfolio Tracker</h2>
         <input type="text" id="cryptoSymbol" placeholder="Enter Crypto Symbol (e.g., BTC)">
         <input type="number" id="cryptoAmount" placeholder="Enter Amount">
         <button onclick="addCrypto()">Add to Portfolio</button>
+        <div id="cryptoImages"></div>
         <ul id="portfolioList"></ul>
         <h3>Total Portfolio Value: <span id="totalValue">0.00</span></h3>
     </div>
-
     <script src="./script/script.js"></script>
 </body>
 </html
