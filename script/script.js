@@ -75,6 +75,7 @@ function displayPortfolio() {
          <button class="add-btn" onclick="increaseCrypto(${index})">➕</button>
         <button class="reduce-btn" onclick="reduceCrypto(${index})">➖</button>
         <button class="remove-btn" onclick="removeCrypto(${index})">❌</button>`;
+        
         list.appendChild(li);
 
         if (coin.image) {
