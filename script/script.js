@@ -71,7 +71,7 @@ function displayPortfolio() {
         total += value;
 
         let li = document.createElement("li");
-        li.innerHTML = `${coin.symbol}: ${coin.amount} (${value.toFixed(2)}) 
+        li.innerHTML = `${coin.symbol}: ${coin.amount} ($${value.toFixed(2)}) 
          <button class="add-btn" onclick="increaseCrypto(${index})">➕</button>
         <button class="reduce-btn" onclick="reduceCrypto(${index})">➖</button>
         <button class="remove-btn" onclick="removeCrypto(${index})">❌</button>`;
@@ -87,7 +87,7 @@ function displayPortfolio() {
         }
     });
 
-    document.getElementById("totalValue").innerText = `${total.toFixed(2)}`;
+    document.getElementById("totalValue").innerText = `$${total.toFixed(2)}`;
 }
 
 function removeCrypto(index) {
