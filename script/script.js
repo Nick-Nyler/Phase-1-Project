@@ -1,5 +1,10 @@
 let portfolio = JSON.parse(localStorage.getItem("cryptoPortfolio")) || [];
 
+function updatePortfolio() {
+    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
+    displayPortfolio();
+}
+
 const coinMap = {
     btc: "bitcoin",
     eth: "ethereum",
@@ -55,8 +60,8 @@ async function addCrypto() {
         portfolio.push(entry);
     }
 
-    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
-    displayPortfolio();
+    updatePortfolio();
+
 }
 
 function displayPortfolio() {
@@ -93,8 +98,8 @@ function displayPortfolio() {
 function removeCrypto(index) {
     if (confirm("Are you sure you want to remove this crypto?")) {
         portfolio.splice(index, 1);
-        localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
-        displayPortfolio();
+
+        updatePortfolio();
     }
 }
 
@@ -114,8 +119,8 @@ function reduceCrypto(index) {
     } else {
         entry.amount -= reduceAmount;
     }
-    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
-    displayPortfolio();
+    updatePortfolio();
+
 }
 
 function increaseCrypto(index) {
@@ -128,8 +133,8 @@ function increaseCrypto(index) {
     }
 
     entry.amount += addAmount;
-    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
-    displayPortfolio();
+    updatePortfolio();
+
 }
 
 window.onload = displayPortfolio;
