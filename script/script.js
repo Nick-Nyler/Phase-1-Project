@@ -103,39 +103,39 @@ function removeCrypto(index) {
     }
 }
 
-function reduceCrypto(index) {
+function modifyCryptoAmount(index, change) {
     let entry = portfolio[index];
-    let reduceAmount = parseFloat(prompt(`Enter amount to reduce from ${entry.symbol} (Current: ${entry.amount}):`));
-    
-    if (isNaN(reduceAmount) || reduceAmount <= 0) {
-        alert("Please enter a valid amount.");
-        return;
-    }
+    let newAmount = entry.amount + change;
 
-    if (reduceAmount >= entry.amount) {
+    if (newAmount <= 0) {
         if (confirm(`Reducing ${entry.amount} will remove ${entry.symbol} from your portfolio. Continue?`)) {
             portfolio.splice(index, 1);
         }
     } else {
-        entry.amount -= reduceAmount;
+        entry.amount = newAmount;
     }
     updatePortfolio();
+}
 
+
+function reduceCrypto(index) {
+    let reduceAmount = parseFloat(prompt(`Enter amount to reduce from ${portfolio[index].symbol} (Current: ${portfolio[index].amount}):`));
+    if (isNaN(reduceAmount) || reduceAmount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+    }
+    modifyCryptoAmount(index, -reduceAmount);
 }
 
 function increaseCrypto(index) {
-    let entry = portfolio[index];
-    let addAmount = parseFloat(prompt(`Enter amount to add for ${entry.symbol} (Current: ${entry.amount}):`));
-    
+    let addAmount = parseFloat(prompt(`Enter amount to add for ${portfolio[index].symbol} (Current: ${portfolio[index].amount}):`));
     if (isNaN(addAmount) || addAmount <= 0) {
         alert("Please enter a valid amount.");
         return;
     }
-
-    entry.amount += addAmount;
-    updatePortfolio();
-
+    modifyCryptoAmount(index, addAmount);
 }
+
 
 window.onload = displayPortfolio;
 
