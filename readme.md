@@ -1,47 +1,55 @@
 # Crypto Portfolio Tracker
 
-## Overview
-The Crypto Portfolio Tracker is a simple web application that allows users to track their cryptocurrency holdings. Users can input cryptocurrency symbols and amounts, and the application will display their portfolio and calculate the total value in real-time using the CoinGecko API.
+## Project Overview
+This is a **Single Page Application (SPA)** that allows users to track their cryptocurrency portfolio. Users can add, update, and remove cryptocurrencies, and the app fetches live price data from the **CoinGecko API**. The portfolio is stored in **localStorage**, ensuring data persistence across page reloads.
 
 ## Features
-- Add cryptocurrency holdings by entering the symbol and amount.
-- Fetch real-time cryptocurrency prices from the CoinGecko API.
-- View a list of added cryptocurrencies with their respective images.
-- Modify portfolio by increasing, reducing, or removing cryptocurrencies.
-- Display the total portfolio value in USD.
-- Store portfolio data in local storage for persistence.
-- Responsive and user-friendly interface.
+- **Add Cryptocurrencies:** Users can input a cryptocurrency symbol (e.g., BTC) and amount to add to their portfolio.
+- **Live Price Fetching:** Uses the CoinGecko API to fetch real-time cryptocurrency prices.
+- **Modify Portfolio:** Users can increase or decrease holdings or remove a cryptocurrency from the portfolio.
+- **LocalStorage Support:** Portfolio data is saved in localStorage for persistence.
+- **Dynamic UI Updates:** The page updates dynamically without reloading.
 
 ## Technologies Used
-- HTML
-- CSS (Enhanced styling for a better user experience)
-- JavaScript
-- CoinGecko API for real-time price fetching
-- LocalStorage for data persistence
+- **Frontend:** HTML, CSS, JavaScript (Vanilla JS)
+- **API:** CoinGecko API (No API key required)
+- **Storage:** LocalStorage (for saving portfolio data)
 
-
-## Usage
-1. Open `index.html` in a web browser.
-2. Enter a cryptocurrency symbol (e.g., BTC) and amount.
-3. Click "Add to Portfolio" to track the cryptocurrency.
-4. The portfolio list and total value will update accordingly.
-5. Use the ➕, ➖, and ❌ buttons to manage your portfolio.
-6. View crypto images for better visualization.
+## Project Requirements Check
+| Requirement | Implementation |
+|-------------|---------------|
+| **HTML/CSS/JS SPA** | ✅ Uses HTML, CSS, and JavaScript with no page reloads |
+| **Public API Integration** | ✅ Fetches data from the CoinGecko API |
+| **At Least 3 Event Listeners** | ✅ Click events for adding, removing, and modifying crypto amounts |
+| **Array Iteration Methods** | ✅ Uses `forEach` to display portfolio items |
+| **Good Coding Practices (DRY, Modular)** | ✅ Functions abstract repetitive logic |
+| **Persistence** | ✅ Uses LocalStorage to retain portfolio data |
 
 ## Setup Instructions
-1. Clone the repository or download the source files.
-2. Open the `index.html` file in a web browser.
-3. Ensure that `style.css` and `script.js` are properly linked and located in the `css` and `script` folders, respectively.
-4. Ensure an active internet connection to fetch cryptocurrency prices.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/crypto-portfolio-tracker.git
+   ```
+2. Navigate to the project folder:
+   ```bash
+   cd crypto-portfolio-tracker
+   ```
+3. Open `index.html` in a browser.
+
+## How to Use
+1. **Enter a cryptocurrency symbol** (e.g., BTC, ETH) and an amount.
+2. **Click "Add to Portfolio"** to add it.
+3. **Modify holdings** using the ➕ and ➖ buttons.
+4. **Remove a cryptocurrency** with the ❌ button.
+5. **View your total portfolio value** at the bottom.
 
 ## Future Enhancements
-- Improve UI/UX with better styling and animations.
-- Implement user authentication for personal portfolio tracking.
-- Support multiple fiat currencies for portfolio valuation.
-- Add historical price tracking and chart visualization.
+- Add **search functionality** to filter portfolio items.
+- Implement **dark mode** for better UI customization.
+- Use `json-server` for a simulated backend.
 
 ## License
-This project is open-source and free to use under the MIT License.
+This project is open-source under the **MIT License**.
 
 ### website link
- https://nick-nyler.github.io/Phase-1-Project/
+https://nick-nyler.github.io/Phase-1-Project/

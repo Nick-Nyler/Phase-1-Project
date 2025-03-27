@@ -26,6 +26,11 @@ async function fetchCryptoDetails(symbol) {
     try {
         let url = `https://api.coingecko.com/api/v3/coins/${coinId}`;
         let response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Invalid symbol: ${symbol}`);
+        }
+
         let data = await response.json();
 
         return {
@@ -34,9 +39,11 @@ async function fetchCryptoDetails(symbol) {
         };
     } catch (error) {
         console.error("Error fetching coin details:", error);
+        alert("Invalid crypto symbol or API issue!");
         return { price: 0, image: "" };
     }
 }
+
 
 async function addCrypto() {
     let inputSymbol = document.getElementById("cryptoSymbol").value.trim().toLowerCase();
@@ -64,6 +71,9 @@ async function addCrypto() {
     }
 
     updatePortfolio();
+    document.getElementById("cryptoSymbol").value = "";
+    document.getElementById("cryptoAmount").value = "";
+
 }
 
 function modifyCryptoAmount(index, change) {

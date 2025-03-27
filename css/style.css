@@ -57,18 +57,6 @@ li {
     font-weight: bold;
 }
 
-.button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 5px;
-}
-
-
-
-.add-btn:hover {
-    background-color: #218838;
-}
-
 .reduce-btn {
     background-color: #ffc107;
     color: black;
@@ -97,6 +85,7 @@ li {
 img {
     width: 50px;
     height: 50px;
+    margin: 5px;
 }
 .add-btn {
     background-color: #3498db; 
@@ -108,7 +97,7 @@ img {
     cursor: pointer;
     width: fit-content;
 }
-add-btn:hover {
+.add-btn:hover {
     background-color: #2980b9;
 }
 .add-btn:active {
