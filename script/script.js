@@ -1,10 +1,5 @@
 let portfolio = JSON.parse(localStorage.getItem("cryptoPortfolio")) || [];
 
-function updatePortfolio() {
-    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
-    displayPortfolio();
-}
-
 const coinMap = {
     btc: "bitcoin",
     eth: "ethereum",
@@ -16,6 +11,15 @@ const coinMap = {
     usdt: "tether",
     bnb: "binancecoin"
 };
+
+function updatePortfolio() {
+    localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
+    displayPortfolio();
+}
+
+function isValidAmount(amount) {
+    return !(isNaN(amount) || amount <= 0);
+}
 
 async function fetchCryptoDetails(symbol) {
     let coinId = coinMap[symbol.toLowerCase()] || symbol.toLowerCase();
@@ -38,7 +42,7 @@ async function addCrypto() {
     let inputSymbol = document.getElementById("cryptoSymbol").value.trim().toLowerCase();
     let amount = parseFloat(document.getElementById("cryptoAmount").value);
 
-    if (!inputSymbol || isNaN(amount) || amount <= 0) {
+    if (!inputSymbol || !isValidAmount(amount)) {
         alert("Enter a valid crypto symbol and amount!");
         return;
     }
@@ -56,12 +60,49 @@ async function addCrypto() {
     if (existingEntry) {
         existingEntry.amount += amount;
     } else {
-        let entry = { symbol: standardizedSymbol, amount, price, image };
-        portfolio.push(entry);
+        portfolio.push({ symbol: standardizedSymbol, amount, price, image });
     }
 
     updatePortfolio();
+}
 
+function modifyCryptoAmount(index, change) {
+    let entry = portfolio[index];
+    let newAmount = entry.amount + change;
+
+    if (newAmount <= 0) {
+        if (confirm(`Reducing ${entry.amount} will remove ${entry.symbol} from your portfolio. Continue?`)) {
+            portfolio.splice(index, 1);
+        }
+    } else {
+        entry.amount = newAmount;
+    }
+    updatePortfolio();
+}
+
+function reduceCrypto(index) {
+    let reduceAmount = parseFloat(prompt(`Enter amount to reduce from ${portfolio[index].symbol} (Current: ${portfolio[index].amount}):`));
+    if (!isValidAmount(reduceAmount)) {
+        alert("Please enter a valid amount.");
+        return;
+    }
+    modifyCryptoAmount(index, -reduceAmount);
+}
+
+function increaseCrypto(index) {
+    let addAmount = parseFloat(prompt(`Enter amount to add for ${portfolio[index].symbol} (Current: ${portfolio[index].amount}):`));
+    if (!isValidAmount(addAmount)) {
+        alert("Please enter a valid amount.");
+        return;
+    }
+    modifyCryptoAmount(index, addAmount);
+}
+
+function removeCrypto(index) {
+    if (confirm("Are you sure you want to remove this crypto?")) {
+        portfolio.splice(index, 1);
+        updatePortfolio();
+    }
 }
 
 function displayPortfolio() {
@@ -95,49 +136,8 @@ function displayPortfolio() {
     document.getElementById("totalValue").innerText = `$${total.toFixed(2)}`;
 }
 
-function removeCrypto(index) {
-    if (confirm("Are you sure you want to remove this crypto?")) {
-        portfolio.splice(index, 1);
-
-        updatePortfolio();
-    }
-}
-
-function modifyCryptoAmount(index, change) {
-    let entry = portfolio[index];
-    let newAmount = entry.amount + change;
-
-    if (newAmount <= 0) {
-        if (confirm(`Reducing ${entry.amount} will remove ${entry.symbol} from your portfolio. Continue?`)) {
-            portfolio.splice(index, 1);
-        }
-    } else {
-        entry.amount = newAmount;
-    }
-    updatePortfolio();
-}
-
-
-function reduceCrypto(index) {
-    let reduceAmount = parseFloat(prompt(`Enter amount to reduce from ${portfolio[index].symbol} (Current: ${portfolio[index].amount}):`));
-    if (isNaN(reduceAmount) || reduceAmount <= 0) {
-        alert("Please enter a valid amount.");
-        return;
-    }
-    modifyCryptoAmount(index, -reduceAmount);
-}
-
-function increaseCrypto(index) {
-    let addAmount = parseFloat(prompt(`Enter amount to add for ${portfolio[index].symbol} (Current: ${portfolio[index].amount}):`));
-    if (isNaN(addAmount) || addAmount <= 0) {
-        alert("Please enter a valid amount.");
-        return;
-    }
-    modifyCryptoAmount(index, addAmount);
-}
-
-
 window.onload = displayPortfolio;
+
 
 
 
