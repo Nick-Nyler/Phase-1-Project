@@ -1,4 +1,5 @@
 let portfolio = JSON.parse(localStorage.getItem("cryptoPortfolio")) || [];
+const darkMode = localStorage.getItem("darkMode") === "enabled";
 
 const coinMap = {
     btc: "bitcoin",
@@ -12,8 +13,38 @@ const coinMap = {
     bnb: "binancecoin"
 };
 
+const body = document.body;
+const container = document.querySelector(".container");
+const darkModeToggle = document.getElementById("darkModeToggle");
 const portfolioListElement = document.getElementById("portfolioList");
 const filterInput = document.getElementById("filterInput");
+
+
+function enableDarkMode() {
+    body.classList.add("dark-mode");
+    container.classList.add("dark-mode");
+    localStorage.setItem("darkMode", "enabled");
+}
+
+
+function disableDarkMode() {
+    body.classList.remove("dark-mode");
+    container.classList.remove("dark-mode");
+    localStorage.setItem("darkMode", "disabled");
+}
+
+if (darkMode) {
+    enableDarkMode();
+}
+
+
+darkModeToggle.addEventListener("click", () => {
+    if (body.classList.contains("dark-mode")) {
+        disableDarkMode();
+    } else {
+        enableDarkMode();
+    }
+});
 
 function updatePortfolio() {
     localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
@@ -154,7 +185,13 @@ function displayPortfolio() {
 }
 
 filterInput.addEventListener('input', displayPortfolio);
-window.onload = displayPortfolio;
+window.onload = () => {
+    displayPortfolio();
+    
+    if (darkMode) {
+        enableDarkMode();
+    }
+};
 
 
 

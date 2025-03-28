@@ -1,51 +1,98 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background: #f4f4f4;
+    background: #f4f4f4; 
+    color: #333; 
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease; 
 }
+
+body.dark-mode {
+    background: #121212; 
+    color: #f0f0f0; 
+}
+
 .container {
     max-width: 400px;
-    margin: 50px auto;
+    margin: 0px auto;
     padding: 20px;
     background: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
+    transition: background-color 0.3s ease;
 }
+
+.container.dark-mode {
+    background: #1e1e1e;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
 h2 {
     color: #333;
 }
+
+.dark-mode h2 {
+    color: #f0f0f0;
+}
+
 input, button {
     width: 90%;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #ccc; 
     border-radius: 5px;
+    background-color: white; 
+    color: #333; 
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
+
+.dark-mode input, .dark-mode button {
+    background-color: #333; 
+    border-color: #555; 
+    color: #f0f0f0; 
+}
+
 button {
-    background: #28a745;
+    background: #28a745; 
     color: white;
     border: none;
     cursor: pointer;
 }
-button:hover {
-    background: #218838;
+
+.dark-mode button {
+    background: #38a169; 
 }
+
+button:hover {
+    background: #218838; 
+}
+
+.dark-mode button:hover {
+    background: #48bb78; 
+}
+
 ul {
     list-style: none;
     padding: 0;
 }
+
 li {
-    background: #e0e0e0;
+    background: #e0e0e0; 
     padding: 10px;
     margin: 5px 0;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease; 
 }
+
+.dark-mode li {
+    background: #252525; 
+    color: #f0f0f0;
+}
+
 .remove-btn {
     background: red;
     color: black;
@@ -55,6 +102,19 @@ li {
     width: fit-content;
     font-size: 14px;
     font-weight: bold;
+}
+
+.dark-mode .remove-btn {
+    background: #e53e3e;
+    color: white;
+}
+
+.remove-btn:hover {
+    background: #c82333;
+}
+
+.dark-mode .remove-btn:hover {
+    background: #c53030;
 }
 
 .reduce-btn {
@@ -67,26 +127,25 @@ li {
     border: none;
 }
 
+.dark-mode .reduce-btn {
+    background-color: #d69e2e;
+    color: black;
+}
+
 .reduce-btn:hover {
     background-color: #e0a800;
 }
 
-.remove-btn {
-    background-color: #dc3545;
-    color: white;
-    display: block;
-    width: fit-content;
-    border: none;
+.dark-mode .reduce-btn:hover {
+    background-color: #c0840c;
 }
 
-.remove-btn:hover {
-    background-color: #c82333;
-}
 img {
     width: 50px;
     height: 50px;
     margin: 5px;
 }
+
 .add-btn {
     background-color: #3498db;
     border: none;
@@ -97,19 +156,59 @@ img {
     cursor: pointer;
     width: fit-content;
 }
+
+.dark-mode .add-btn {
+    background-color: #4299e1;
+}
+
 .add-btn:hover {
     background-color: #2980b9;
 }
-.add-btn:active {
-    background-color: #1f618d;
-}
 
+.dark-mode .add-btn:hover {
+    background-color: #3182ce;
+}
 
 #filterInput {
     margin-top: 10px;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 90%; 
+    width: 90%;
     box-sizing: border-box;
+    background-color: white; 
+    color: #333;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode #filterInput {
+    background-color: #333;
+    border-color: #555;
+    color: #f0f0f0;
+}
+
+#darkModeToggle {
+    width: auto;
+    padding: 8px 15px;
+    margin-bottom: 0px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: black;
+    color: #333;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode #darkModeToggle {
+    background-color: #333;
+    border-color: #555;
+    color: #f0f0f0;
+}
+
+#darkModeToggle:hover {
+    background-color: #e0e0e0;
+}
+
+.dark-mode #darkModeToggle:hover {
+    background-color: #444;
 }
