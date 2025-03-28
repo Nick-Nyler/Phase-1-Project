@@ -12,6 +12,9 @@ const coinMap = {
     bnb: "binancecoin"
 };
 
+const portfolioListElement = document.getElementById("portfolioList");
+const filterInput = document.getElementById("filterInput");
+
 function updatePortfolio() {
     localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
     displayPortfolio();
@@ -121,17 +124,21 @@ function displayPortfolio() {
     list.innerHTML = "";
     imageContainer.innerHTML = "";
     let total = 0;
+    const filterValue = filterInput.value.toUpperCase();
 
     portfolio.forEach((coin, index) => {
         let value = coin.amount * coin.price;
         total += value;
 
         let li = document.createElement("li");
-        li.innerHTML = `${coin.symbol}: ${coin.amount} ($${value.toFixed(2)}) 
-         <button class="add-btn" onclick="increaseCrypto(${index})">➕</button>
+        li.innerHTML = `${coin.symbol}: ${coin.amount} ($${value.toFixed(2)})
+            <button class="add-btn" onclick="increaseCrypto(${index})">➕</button>
         <button class="reduce-btn" onclick="reduceCrypto(${index})">➖</button>
         <button class="remove-btn" onclick="removeCrypto(${index})">❌</button>`;
-        
+
+        const symbolMatch = coin.symbol.toUpperCase().includes(filterValue);
+        li.style.display = symbolMatch ? "" : "none";
+
         list.appendChild(li);
 
         if (coin.image) {
@@ -146,6 +153,7 @@ function displayPortfolio() {
     document.getElementById("totalValue").innerText = `$${total.toFixed(2)}`;
 }
 
+filterInput.addEventListener('input', displayPortfolio);
 window.onload = displayPortfolio;
 
 

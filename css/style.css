@@ -12,7 +12,7 @@ body {
     background: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    
+
 }
 h2 {
     color: #333;
@@ -88,7 +88,7 @@ img {
     margin: 5px;
 }
 .add-btn {
-    background-color: #3498db; 
+    background-color: #3498db;
     border: none;
     color: white;
     padding: 6px 12px;
@@ -101,5 +101,15 @@ img {
     background-color: #2980b9;
 }
 .add-btn:active {
-    background-color: #1f618d; 
+    background-color: #1f618d;
+}
+
+
+#filterInput {
+    margin-top: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 90%; 
+    box-sizing: border-box;
 }
