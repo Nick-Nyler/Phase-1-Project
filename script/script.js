@@ -1,4 +1,5 @@
 let portfolio = JSON.parse(localStorage.getItem("cryptoPortfolio")) || [];
+let transactionHistory = JSON.parse(localStorage.getItem("transactionHistory")) || []; // Initialize transaction history
 const darkMode = localStorage.getItem("darkMode") === "enabled";
 
 const coinMap = {
@@ -49,6 +50,11 @@ darkModeToggle.addEventListener("click", () => {
 function updatePortfolio() {
     localStorage.setItem("cryptoPortfolio", JSON.stringify(portfolio));
     displayPortfolio();
+}
+
+function updateTransactionHistory() {
+    localStorage.setItem("transactionHistory", JSON.stringify(transactionHistory));
+    displayTransactionHistory(); // We'll create this function later
 }
 
 function isValidAmount(amount) {
@@ -104,6 +110,15 @@ async function addCrypto() {
         portfolio.push({ symbol: standardizedSymbol, amount, price, image });
     }
 
+    // Record transaction
+    transactionHistory.push({
+        timestamp: new Date().toISOString(),
+        symbol: standardizedSymbol,
+        amount: amount,
+        type: "buy", // Keep as "buy" for initial addition
+        priceAtTransaction: price
+    });
+    updateTransactionHistory();
     updatePortfolio();
     document.getElementById("cryptoSymbol").value = "";
     document.getElementById("cryptoAmount").value = "";
@@ -113,10 +128,31 @@ async function addCrypto() {
 function modifyCryptoAmount(index, change) {
     let entry = portfolio[index];
     let newAmount = entry.amount + change;
+    const transactionType = change > 0 ? "buy" : "sell"; // Keep as "buy" or "sell" for modifications
+    const transactionAmount = Math.abs(change);
+
+    // Record transaction before modifying portfolio
+    transactionHistory.push({
+        timestamp: new Date().toISOString(),
+        symbol: entry.symbol,
+        amount: transactionAmount,
+        type: transactionType,
+        priceAtTransaction: entry.price // Using current price for simplicity, can fetch historical if needed
+    });
+    updateTransactionHistory();
 
     if (newAmount <= 0) {
-        if (confirm(`Reducing ${entry.amount} will remove ${entry.symbol} from your portfolio. Continue?`)) {
+        if (confirm(`Reducing ${entry.amount} will withdraw ${entry.symbol} from your portfolio. Continue?`)) { // Changed confirm message
             portfolio.splice(index, 1);
+            // Record removal transaction
+            transactionHistory.push({
+                timestamp: new Date().toISOString(),
+                symbol: entry.symbol,
+                amount: entry.amount,
+                type: "withdraw", // Changed "remove" to "withdraw"
+                priceAtTransaction: entry.price // Using current price for simplicity
+            });
+            updateTransactionHistory();
         }
     } else {
         entry.amount = newAmount;
@@ -125,7 +161,7 @@ function modifyCryptoAmount(index, change) {
 }
 
 function reduceCrypto(index) {
-    let reduceAmount = parseFloat(prompt(`Enter amount to reduce from ${portfolio[index].symbol} (Current: ${portfolio[index].amount}):`));
+    let reduceAmount = parseFloat(prompt(`Enter amount to sell from ${portfolio[index].symbol} (Current: ${portfolio[index].amount}):`));
     if (!isValidAmount(reduceAmount)) {
         alert("Please enter a valid amount.");
         return;
@@ -134,7 +170,7 @@ function reduceCrypto(index) {
 }
 
 function increaseCrypto(index) {
-    let addAmount = parseFloat(prompt(`Enter amount to add for ${portfolio[index].symbol} (Current: ${portfolio[index].amount}):`));
+    let addAmount = parseFloat(prompt(`Enter amount to buy for ${portfolio[index].symbol} (Current: ${portfolio[index].amount}):`));
     if (!isValidAmount(addAmount)) {
         alert("Please enter a valid amount.");
         return;
@@ -143,7 +179,16 @@ function increaseCrypto(index) {
 }
 
 function removeCrypto(index) {
-    if (confirm("Are you sure you want to remove this crypto?")) {
+    if (confirm("Are you sure you want to withdraw this crypto?")) { // Changed confirm message
+        // Record removal transaction before removing from portfolio
+        transactionHistory.push({
+            timestamp: new Date().toISOString(),
+            symbol: portfolio[index].symbol,
+            amount: portfolio[index].amount,
+            type: "withdraw", // Changed "remove" to "withdraw"
+            priceAtTransaction: portfolio[index].price // Using current price for simplicity
+        });
+        updateTransactionHistory();
         portfolio.splice(index, 1);
         updatePortfolio();
     }
@@ -163,9 +208,7 @@ function displayPortfolio() {
 
         let li = document.createElement("li");
         li.innerHTML = `${coin.symbol}: ${coin.amount} ($${value.toFixed(2)})
-            <button class="add-btn" onclick="increaseCrypto(${index})">➕</button>
-        <button class="reduce-btn" onclick="reduceCrypto(${index})">➖</button>
-        <button class="remove-btn" onclick="removeCrypto(${index})">❌</button>`;
+            <button class="buy-btn" onclick="increaseCrypto(${index})">Buy</button> <button class="sell-btn" onclick="reduceCrypto(${index})">Sell</button> <button class="withdraw-btn" onclick="removeCrypto(${index})">Withdraw</button>`; // Changed button text and class
 
         const symbolMatch = coin.symbol.toUpperCase().includes(filterValue);
         li.style.display = symbolMatch ? "" : "none";
@@ -184,10 +227,37 @@ function displayPortfolio() {
     document.getElementById("totalValue").innerText = `$${total.toFixed(2)}`;
 }
 
+function displayTransactionHistory() {
+    const historyContainer = document.getElementById("transactionHistory"); // Get the container
+    if (!historyContainer) return; // Ensure the container exists
+
+    historyContainer.innerHTML = "<h3>Transaction History</h3>";
+    const historyList = document.createElement("ul");
+
+    transactionHistory.forEach(transaction => {
+        const listItem = document.createElement("li");
+        const formattedDate = new Date(transaction.timestamp).toLocaleString();
+        let transactionText = `${formattedDate}: ${transaction.type.toUpperCase()} - ${transaction.symbol} (${transaction.amount} @ $${transaction.priceAtTransaction.toFixed(2)})`;
+        listItem.classList.add(transaction.type); // Add class for color coding
+
+        if (transaction.type === 'buy') {
+            transactionText = `${formattedDate}: BOUGHT - ${transaction.symbol} (${transaction.amount} @ $${transaction.priceAtTransaction.toFixed(2)})`;
+        } else if (transaction.type === 'sell') {
+            transactionText = `${formattedDate}: SOLD - ${transaction.symbol} (${transaction.amount} @ $${transaction.priceAtTransaction.toFixed(2)})`;
+        } else if (transaction.type === 'withdraw') {
+            transactionText = `${formattedDate}: WITHDREW - ${transaction.symbol} (${transaction.amount} @ $${transaction.priceAtTransaction.toFixed(2)})`; // Changed to "WITHDREW"
+        }
+        listItem.textContent = transactionText;
+        historyList.appendChild(listItem);
+    });
+
+    historyContainer.appendChild(historyList);
+}
+
 filterInput.addEventListener('input', displayPortfolio);
 window.onload = () => {
     displayPortfolio();
-    
+    displayTransactionHistory(); // Call this when the page loads
     if (darkMode) {
         enableDarkMode();
     }

@@ -1,16 +1,16 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background: #f4f4f4; 
-    color: #333; 
+    background: #f4f4f4;
+    color: #333;
     margin: 0;
     padding: 0;
-    transition: background-color 0.3s ease, color 0.3s ease; 
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.dark-mode {
-    background: #121212; 
-    color: #f0f0f0; 
+    background: #121212;
+    color: #f0f0f0;
 }
 
 .container {
@@ -40,36 +40,36 @@ input, button {
     width: 90%;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #ccc; 
+    border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: white; 
-    color: #333; 
+    background-color: white;
+    color: #333;
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .dark-mode input, .dark-mode button {
-    background-color: #333; 
-    border-color: #555; 
-    color: #f0f0f0; 
+    background-color: #333;
+    border-color: #555;
+    color: #f0f0f0;
 }
 
 button {
-    background: #28a745; 
+    background: #28a745;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 .dark-mode button {
-    background: #38a169; 
+    background: #38a169;
 }
 
 button:hover {
-    background: #218838; 
+    background: #218838;
 }
 
 .dark-mode button:hover {
-    background: #48bb78; 
+    background: #48bb78;
 }
 
 ul {
@@ -78,22 +78,22 @@ ul {
 }
 
 li {
-    background: #e0e0e0; 
+    background: #e0e0e0;
     padding: 10px;
     margin: 5px 0;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: background-color 0.3s ease, color 0.3s ease; 
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dark-mode li {
-    background: #252525; 
+    background: #252525;
     color: #f0f0f0;
 }
 
-.remove-btn {
+.remove-btn, .withdraw-btn {
     background: red;
     color: black;
     border: none;
@@ -104,20 +104,20 @@ li {
     font-weight: bold;
 }
 
-.dark-mode .remove-btn {
+.dark-mode .remove-btn, .dark-mode .withdraw-btn {
     background: #e53e3e;
     color: white;
 }
 
-.remove-btn:hover {
+.remove-btn:hover, .withdraw-btn:hover {
     background: #c82333;
 }
 
-.dark-mode .remove-btn:hover {
+.dark-mode .remove-btn:hover, .dark-mode .withdraw-btn:hover {
     background: #c53030;
 }
 
-.reduce-btn {
+.reduce-btn, .sell-btn {
     background-color: #ffc107;
     color: black;
     padding: 6px 12px;
@@ -127,16 +127,16 @@ li {
     border: none;
 }
 
-.dark-mode .reduce-btn {
+.dark-mode .reduce-btn, .dark-mode .sell-btn {
     background-color: #d69e2e;
     color: black;
 }
 
-.reduce-btn:hover {
+.reduce-btn:hover, .sell-btn:hover {
     background-color: #e0a800;
 }
 
-.dark-mode .reduce-btn:hover {
+.dark-mode .reduce-btn:hover, .dark-mode .sell-btn:hover {
     background-color: #c0840c;
 }
 
@@ -146,7 +146,7 @@ img {
     margin: 5px;
 }
 
-.add-btn {
+.add-btn, .buy-btn {
     background-color: #3498db;
     border: none;
     color: white;
@@ -157,15 +157,15 @@ img {
     width: fit-content;
 }
 
-.dark-mode .add-btn {
+.dark-mode .add-btn, .dark-mode .buy-btn {
     background-color: #4299e1;
 }
 
-.add-btn:hover {
+.add-btn:hover, .buy-btn:hover {
     background-color: #2980b9;
 }
 
-.dark-mode .add-btn:hover {
+.dark-mode .add-btn:hover, .dark-mode .buy-btn:hover {
     background-color: #3182ce;
 }
 
@@ -176,7 +176,7 @@ img {
     border-radius: 5px;
     width: 50%;
     box-sizing: border-box;
-    background-color: white; 
+    background-color: white;
     color: #333;
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
@@ -211,4 +211,60 @@ img {
 
 .dark-mode #darkModeToggle:hover {
     background-color: #444;
+}
+
+#transactionHistory {
+    margin-top: 20px;
+    padding: 15px;
+    border-top: 1px solid #ccc;
+    text-align: left;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode #transactionHistory {
+    background-color: #252525;
+    border-color: #555;
+    color: #f0f0f0;
+}
+
+#transactionHistory h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.dark-mode #transactionHistory h3 {
+    color: #f0f0f0;
+}
+
+#transactionHistory ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+#transactionHistory li {
+    background: none;
+    padding: 5px 0;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+    display: block;
+    justify-content: flex-start;
+}
+
+.dark-mode #transactionHistory li {
+    border-bottom: 1px solid #444;
+}
+
+#transactionHistory li:last-child {
+    border-bottom: none;
+}
+
+/* Color for transaction history items */
+#transactionHistory li.buy {
+    color: green;
+}
+
+#transactionHistory li.sell {
+    color: red;
 }
