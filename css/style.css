@@ -188,29 +188,48 @@ img {
 }
 
 #darkModeToggle {
-    width: auto;
-    padding: 8px 15px;
-    margin-bottom: 0px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border-radius: 15px;
+    background-color: #ccc; 
+    position: relative;
     cursor: pointer;
-    background-color: black;
-    color: #333;
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    color: #555;
+    border: none;
+    margin: -1rem 0rem -1rem 24rem;
+   
 }
 
-.dark-mode #darkModeToggle {
-    background-color: #333;
-    border-color: #555;
+#darkModeToggle span {
+    position: absolute;
+    transition: opacity 0.3s ease;
+}
+
+#darkModeIcon {
+    opacity: 1;
+}
+
+#lightModeIcon {
+    opacity: 0;
+}
+
+body.dark-mode #darkModeToggle {
+    background-color: #333; 
     color: #f0f0f0;
 }
 
-#darkModeToggle:hover {
-    background-color: #e0e0e0;
+body.dark-mode #darkModeIcon {
+    opacity: 0;
 }
 
-.dark-mode #darkModeToggle:hover {
-    background-color: #444;
+body.dark-mode #lightModeIcon {
+    opacity: 1;
 }
 
 #transactionHistory {
@@ -260,7 +279,6 @@ img {
     border-bottom: none;
 }
 
-/* Color for transaction history items */
 #transactionHistory li.buy {
     color: green;
 }

@@ -7,8 +7,12 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <button id="darkModeToggle">🌙</button>
+    
     <div class="container">
+        <button id="darkModeToggle" title="Toggle Dark Mode">
+            <span id="lightModeIcon" style="display: none;">☀️</span>
+            <span id="darkModeIcon">🌙</span>
+        </button>
         <h2>Crypto Portfolio Tracker</h2>
 
         <input type="text" id="cryptoSymbol" placeholder="Enter Crypto Symbol (e.g., BTC)">
