@@ -247,7 +247,7 @@ function displayTransactionHistory() {
         } else if (transaction.type === 'sell') {
             transactionText = `${formattedDate}: SOLD - ${transaction.symbol} (${transaction.amount} @ $${transaction.priceAtTransaction.toFixed(2)})`;
         } else if (transaction.type === 'withdraw') {
-            transactionText = `${formattedDate}: WITHDREW - ${transaction.symbol} (${transaction.amount} @ $${transaction.priceAtTransaction.toFixed(2)})`;
+            transactionText = `${formattedDate}: WITHDRAWN - ${transaction.symbol} (${transaction.amount} @ $${transaction.priceAtTransaction.toFixed(2)})`;
         }
         listItem.textContent = transactionText;
         historyList.appendChild(listItem);
